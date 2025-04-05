@@ -1,9 +1,10 @@
 from flask import Flask, request, jsonify
-from youtube_transcript_api import YouTubeTranscriptApi
 from flask_cors import CORS
+from youtube_transcript_api import YouTubeTranscriptApi
+import os
 
 app = Flask(__name__)
-CORS(app)  # Biar bisa diakses dari tool lain seperti Make/Reqbin
+CORS(app)  # Biar bisa diakses dari tools seperti Make/Reqbin
 
 @app.route("/", methods=["GET"])
 def home():
@@ -25,5 +26,6 @@ def get_transcript():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+if __name__ == '__main__':
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
